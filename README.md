@@ -1,56 +1,145 @@
-🎬 Movies CRUD App
-Welcome to the Movies CRUD App! This application is built using Golang and allows you to perform CRUD (Create, Read, Update, Delete) operations on a collection of movies. The app does not use any database; instead, it utilizes structs to manage movie data.
+# 🎬 Movies CRUD API
 
-🚀 Features
-Get All Movies: Retrieve a list of all movies.
-Get Movie by ID: Fetch details of a specific movie by its ID.
-Create Movie: Add a new movie to the collection.
-Update Movie: Modify details of an existing movie.
-Delete Movie: Remove a movie from the collection.
-🛠️ Endpoints
-GET /movies - Get all movies
-GET /movies/{id} - Get a movie by ID
-POST /movies - Create a new movie
-PUT /movies/{id} - Update a movie by ID
-DELETE /movies/{id} - Delete a movie by ID
-📦 Installation
-Clone the repository:
+A simple RESTful API built with Go (Golang) that allows you to manage a collection of movies. This application implements basic CRUD (Create, Read, Update, Delete) operations using in-memory storage with structs.
+
+## 🚀 Features
+
+- Get all movies
+- Get a specific movie by ID
+- Create new movies
+- Update existing movies
+- Delete movies
+- No database required - uses in-memory storage
+
+## 🛠️ Prerequisites
+
+- Go (1.16 or later)
+- Gorilla Mux router
+
+## 📦 Installation
+
+1. Clone the repository:
+```bash
 git clone https://github.com/yourusername/movies-crud-app.git
+```
 
-Navigate to the project directory:
+2. Navigate to the project directory:
+```bash
 cd movies-crud-app
+```
 
-Run the application:
+3. Install dependencies:
+```bash
+go mod tidy
+```
+
+4. Run the application:
+```bash
 go run main.go
+```
 
-📋 Usage
-Use the following cURL commands to interact with the API:
+The server will start on `http://localhost:8080`
 
-Get All Movies:
+## 🔄 API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/movies` | Get all movies |
+| GET | `/movies/{id}` | Get a movie by ID |
+| POST | `/movies` | Create a new movie |
+| PUT | `/movies/{id}` | Update a movie by ID |
+| DELETE | `/movies/{id}` | Delete a movie by ID |
+
+## 📝 API Usage
+
+### Get All Movies
+```bash
 curl -X GET http://localhost:8080/movies
+```
 
-Get Movie by ID:
-curl -X GET http://localhost:8080/movies/{id}
+### Get Movie by ID
+```bash
+curl -X GET http://localhost:8080/movies/1
+```
 
-Create Movie:
-curl -X POST -H "Content-Type: application/json" -d '{"id":"1","title":"Inception","director":"Christopher Nolan"}' http://localhost:8080/movies
+### Create Movie
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{
+    "id": "4",
+    "isbn": "324532",
+    "title": "New Movie",
+    "duration": 165,
+    "director": {
+        "firstname": "John",
+        "lastname": "Doe"
+    }
+}' http://localhost:8080/movies
+```
 
-Update Movie:
-curl -X PUT -H "Content-Type: application/json" -d '{"title":"Inception","director":"Christopher Nolan"}' http://localhost:8080/movies/{id}
+### Update Movie
+```bash
+curl -X PUT -H "Content-Type: application/json" -d '{
+    "isbn": "324532",
+    "title": "Updated Movie",
+    "duration": 170,
+    "director": {
+        "firstname": "John",
+        "lastname": "Doe"
+    }
+}' http://localhost:8080/movies/1
+```
 
-Delete Movie:
-curl -X DELETE http://localhost:8080/movies/{id}
+### Delete Movie
+```bash
+curl -X DELETE http://localhost:8080/movies/1
+```
 
-📚 Code Snippets
-Here’s a glimpse of the main routes in the application:
+## 📊 Data Structure
 
-Go
+```go
+type Movie struct {
+    ID       string    `json:"id"`
+    Isbn     string    `json:"isbn"`
+    Title    string    `json:"title"`
+    Duration int       `json:"duration"`
+    Director *Director `json:"director"`
+}
 
-r.HandleFunc("/movies", getMovies).Methods("GET")
-r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
-r.HandleFunc("/movies", createMovie).Methods("POST")
-r.HandleFunc("/movies/{id}", updateMovie).Methods("PUT")
-r.HandleFunc("/movies/{id}", deleteMovie).Methods("DELETE")
-AI-generated code. Review and use carefully. More info on FAQ.
-🤝 Contributing
-Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes.
+type Director struct {
+    Firstname string `json:"firstname"`
+    Lastname  string `json:"lastname"`
+}
+```
+
+## 🔧 Sample Data
+
+The application comes with some sample movie data:
+
+```go
+movies = append(movies, Movie{
+    ID: "1",
+    Isbn: "324332",
+    Title: "Movie One",
+    Duration: 180,
+    Director: &Director{
+        Firstname: "Ajinkya",
+        Lastname: "Salunke"
+    }
+})
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📞 Support
+
+For support, please open an issue in the GitHub repository.
